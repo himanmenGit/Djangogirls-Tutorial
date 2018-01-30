@@ -1,14 +1,27 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
 </head>
 <body>
-<h1>Post List</h1>
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquam assumenda autem corporis cupiditate distinctio dolor doloribus dolorum ducimus eos fuga illum impedit iusto molestiae necessitatibus nihil tempore totam, ut?</p>
+    <div>
+    <h1><a href="">Django Girls Blog</a></h1>
+  </div>
+  
+  <hr>
+
+  {% for post in posts %}
+  <div>
+    <p>published: {{ post.published_date }}</p>
+    <p>created: {{ post.created_date }}</p>
+    <h2><a href="">{{ post.title }}</a> </h2>
+    <p>{{ post.content|linebreaksbr }}</p>
+    <hr>
+  </div>
+  {% endfor %}
 </body>
 </html>

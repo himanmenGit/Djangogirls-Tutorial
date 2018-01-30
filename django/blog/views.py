@@ -1,9 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-
-
-# Create your views here.
-# urlpattern을통해 들어와서 처리해주는 곳
+from .models import Post
 
 
 def post_list(request):
@@ -25,8 +22,19 @@ def post_list(request):
     #                     '<p>Post 목록을 보여줄 예정 입니다.</p>'
     #                     '</body></html>')
 
+    posts = Post.objects.all()
+    # render() 함수에 전달할 dict객체 생성
+    context = {
+        'posts': posts,
+    }
     # 'blog/post_list.html' 템플릿 파일을 이룔해 HTTP프로토콜에 대해 응답함.
-    return render(request, 'blog/post_list.html')
+    # return render(
+    #     request=request,
+    #     template_name='blog/post_list.html',
+    #     context=context,
+    # )
+    # 위 return 코드와 같음
+    return render(request, 'blog/post_list.html', context)
 
 
 def post_detail(request):
