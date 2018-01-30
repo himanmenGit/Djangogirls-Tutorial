@@ -11,4 +11,5 @@ urlpatterns = [
     # 일치하는 패턴에 대해 상응하는 모듈의
     # 함수자체를 전달
     path('', views.post_list),
+    path('detail/', views.post_detail)
 ]
