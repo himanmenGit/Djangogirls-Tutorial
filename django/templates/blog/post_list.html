@@ -6,22 +6,26 @@
   content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
+  <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.css">
+  <link rel="stylesheet" href="/static/css/blog.css">
 </head>
 <body>
+  <div class='container'>
     <div>
-    <h1><a href="">Django Girls Blog</a></h1>
-  </div>
-  
-  <hr>
+      <h1><a href="">Django Girls Blog</a></h1>
+    </div>
 
-  {% for post in posts %}
-  <div>
-    <p>published: {{ post.published_date }}</p>
-    <p>created: {{ post.created_date }}</p>
-    <h2><a href="">{{ post.title }}</a> </h2>
-    <p>{{ post.content|linebreaksbr }}</p>
     <hr>
+
+    {% for post in posts %}
+    <div>
+      <p>published: {{ post.published_date }}</p>
+      <p>created: {{ post.created_date }}</p>
+      <h2><a href="">{{ post.title }}</a> </h2>
+      <p>{{ post.content|linebreaksbr|truncatewords:10 }}</p>
+      <hr>
+    </div>
+    {% endfor %}
   </div>
-  {% endfor %}
 </body>
 </html>
