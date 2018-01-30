@@ -20,5 +20,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # inlcude로 참조하는 것은 모듈명.
     # blog 라는 패키지 안에 urls라는 모듈을 참조 하겠다
-    path('', include('blog.urls'))
+    path('', include('blog.urls')),
 ]
