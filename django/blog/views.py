@@ -37,7 +37,7 @@ def post_list(request):
     return render(request, 'blog/post_list.html', context)
 
 
-def post_detail(request):
+def post_detail(request, pk):
     """
     localhost:8000/detail/로 온 요청을
     'blog/post_detail.html'을 render한 결과를 리턴
@@ -45,7 +45,12 @@ def post_detail(request):
     ursl, views, template을 모두 작성 해야 함
 
     :param request: request요청
+    :param pk: primary key
     :return: blog/post_detail.html
     """
 
-    return render(request, 'blog/post_detail.html')
+    context = {
+        'post': Post.objects.get(pk=pk),
+    }
+
+    return render(request, 'blog/post_detail.html', context)
