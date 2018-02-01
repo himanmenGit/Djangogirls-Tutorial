@@ -88,11 +88,14 @@ def post_add(request):
 
 
 def post_delete(request, pk):
-
     # pk에 해당하는 Post를 삭제
     if request.method == 'POST':
         post = Post.objects.get(pk=pk)
-        post.delete()
+        # 삭제 요청한 user와 post의 author가 같을때만 해당 post 삭제
+        if request.user == post.author:
+            post.delete()
+            # 이후 post-list라는 URL name을 갖는 view로 redirect
+            return redirect('post-list')
 
     # 삭제후 post-list로 리디렉트
-    return redirect('post-list')
+    return redirect('post-detail', pk=post.pk)
