@@ -22,7 +22,8 @@ def post_list(request):
     #                     '<p>Post 목록을 보여줄 예정 입니다.</p>'
     #                     '</body></html>')
 
-    posts = Post.objects.all().order_by('-created_date')
+    # post들의 순서를 최신 순으로 함!.
+    posts = Post.objects.all()
     # render() 함수에 전달할 dict객체 생성
     context = {
         'posts': posts,

@@ -24,6 +24,11 @@ class Post(models.Model):
         blank=True, null=True
     )
 
+    class Meta:
+        verbose_name = '글'
+        verbose_name_plural = f'{verbose_name} 목록'
+        ordering = ['-created_date']
+
     def publish(self):
         self.published_date = timezone.now()
         # 객체를 변환 시키고 데이터베이스에 저장해야 한다.
