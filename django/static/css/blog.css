@@ -22,10 +22,6 @@ h2 {
   text-decoration: none;
 }
 
-.header > container > add_link {
-  float: right;
-}
-
 .post {
   padding-bottom: 10px;
   border-bottom: 1px solid #ccc;
