@@ -85,19 +85,23 @@ def post_edit(request, pk):
 
     # 현재 URL (pk가 3일경우 /3/edit)에 전달된 pk에 해당하는 Post인스턴스를 post변수에 할당
     post = Post.objects.get(pk=pk)
+    context = {
+        'post': post,
+    }
     # 만약 POST 메서드 요청 일 경우
     if request.method == 'POST':
-        post.title = request.POST['title']
-        post.content = request.POST['content']
-        # DB에 저장
-        post.save()
-        # 상세화면으로 이동
-        return redirect('post-detail', pk=post.pk)
+        title = request.POST['title']
+        content = request.POST['content']
 
+        if title and content:
+            post.title = title
+            post.content = content
+            # DB에 저장
+            post.save()
+            # 상세화면으로 이동
+            return redirect('post-detail', pk=post.pk)
+        context['form_error'] = '제목과 내용을 입력해주세요'
     # 만약 GET 메서드 요청 일 경우
-    context = {
-        'post': post
-    }
     # 수정 할 수 있는 페이지를 보여줌
     return render(request, 'blog/post_add_edit.html', context)
 
@@ -108,26 +112,32 @@ def post_add(request):
     # HttpResponse가 아니라 blog/post_add.html을 출력
     # post_add.html은 base.html을 확장, title(h2)부분에 'Post add'라고 출
 
+    context = dict()
+
     if request.method == 'POST':
         # 요청의 method가 POST일 때
         # HttpResponse로 POST요청에 담겨온
         # title과 content를 합친 문자열 데이터를 보여줌
         title = request.POST['title']
         content = request.POST['content']
-        post = Post.objects.create(
-            author=request.user,
-            title=title,
-            content=content,
-        )
-        # post-detail이라는 URL name을 가진 뷰로
-        # 리디렉션 요청을 보냄
-        # 이 때, post-detail URL name으로 특정 URL을 만드려면
-        # pk값이 필요하므로 키워드 인수로 해당 값을 넘겨 준다.
-        return redirect('post-detail', pk=post.pk)
-        # return HttpResponse(f"{post.pk} {post.title} {post.content} ")
-    else:
-        # 요청의 method가 GET일 때
-        return render(request, 'blog/post_add_edit.html')
+
+        # 만약 title이나 content가 비어 있으면
+        # 다시 글 작성화면으로 이동
+        # 이동시키지 말고, 아래까지 내려가서 오류메세지를 출력
+        if title and content:
+            post = Post.objects.create(
+                author=request.user,
+                title=title,
+                content=content,
+            )
+            # post-detail이라는 URL name을 가진 뷰로
+            # 리디렉션 요청을 보냄
+            # 이 때, post-detail URL name으로 특정 URL을 만드려면
+            # pk값이 필요하므로 키워드 인수로 해당 값을 넘겨 준다.
+            return redirect('post-detail', pk=post.pk)
+        context['form_error'] = '제목과 내용을 입력해주세요'
+    # 요청의 method가 GET일 때
+    return render(request, 'blog/post_add_edit.html', context)
 
 
 def post_delete(request, pk):
