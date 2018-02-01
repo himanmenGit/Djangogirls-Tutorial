@@ -57,15 +57,57 @@ def post_detail(request, pk):
     return render(request, 'blog/post_detail.html', context)
 
 
+def post_edit(request, pk):
+    """
+    1.  pk에 해당하는 Post인스턴스를
+        context라는 dict에 'post'키에 할당
+        생성한 dict는 render의 context에 전달
+        사용하는 템플릿은 'blog/post_add.html'을 재사용
+            HTML새로 만들지 말고 있던 html을 그냥 할당
+
+    2.  url은 /3/edit <- 에 매칭되도록 urls.py작성
+
+    3.  이 위치로 올 수 있는 a요소를 post_detail.html에 작성 (form 아님)
+
+    request.method가 POST일 때는 request.POST에 있는 데이터를 이용해서
+    pk에 해당하는 Post인스턴스의 값을 수정, 이후 post_detail로 redirect
+        값을 수정하는 코드
+            post = Post.objects.get(pk=pk)
+            post.title = <새 문자열>
+            post content = <새 문자열>
+            post.save() <- DB 업데이트
+
+    request.method가 GET일 때는 현재 아래에 있는 로직을 실행
+    :param request:
+    :param pk:
+    :return:
+    """
+
+    # 현재 URL (pk가 3일경우 /3/edit)에 전달된 pk에 해당하는 Post인스턴스를 post변수에 할당
+    post = Post.objects.get(pk=pk)
+    # 만약 POST 메서드 요청 일 경우
+    if request.method == 'POST':
+        post.title = request.POST['title']
+        post.content = request.POST['content']
+        # DB에 저장
+        post.save()
+        # 상세화면으로 이동
+        return redirect('post-detail', pk=post.pk)
+
+    # 만약 GET 메서드 요청 일 경우
+    context = {
+        'post': post
+    }
+    # 수정 할 수 있는 페이지를 보여줌
+    return render(request, 'blog/post_edit.html', context)
+
+
 def post_add(request):
     # localhost:8000/add로 접근 시
     # 해당 뷰가 실행되어서 Post add page라는 문구를 보여주도록 urls작성
     # HttpResponse가 아니라 blog/post_add.html을 출력
     # post_add.html은 base.html을 확장, title(h2)부분에 'Post add'라고 출
 
-    context = {
-
-    }
     if request.method == 'POST':
         # 요청의 method가 POST일 때
         # HttpResponse로 POST요청에 담겨온
@@ -85,7 +127,7 @@ def post_add(request):
         # return HttpResponse(f"{post.pk} {post.title} {post.content} ")
     else:
         # 요청의 method가 GET일 때
-        return render(request, 'blog/post_add.html', context)
+        return render(request, 'blog/post_add.html')
 
 
 def post_delete(request, pk):

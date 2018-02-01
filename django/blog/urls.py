@@ -22,6 +22,9 @@ urlpatterns = [
     # /3/delete/
     path('<int:pk>/delete/', views.post_delete, name='post-delete'),
 
+    # /3/edit/
+    path('<int:pk>/edit/', views.post_edit, name='post-edit'),
+
     # localhost:8000/add에 접근할 수 있는 path 구현
     # /add/
     path('add/', views.post_add, name='post-add'),
