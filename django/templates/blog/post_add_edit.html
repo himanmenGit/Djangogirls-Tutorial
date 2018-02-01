@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 
-{% block title %}Post edit (pk: {{ post.pk }} ){% endblock %}
+{% block title %}
+    {% if post %}
+        Post edit (pk: {{ post.pk }} )
+    {% else %}
+        Post add
+    {% endif %}
+{% endblock %}
 
 {% block content %}
 
@@ -15,6 +21,12 @@
         <label for="content">내용</label>
         <textarea name="content" id="content" cols="30" rows="10" placeholder="내용" class="form-control">{{ post.content }}</textarea>
     </div>
-    <button type="submit" class="btn btn-primary">수정하기</button>
+    <button type="submit" class="btn btn-primary">
+        {% if post %}
+            수정하기
+        {% else %}
+            작성하기
+        {% endif %}
+    </button>
 </form>
 {% endblock %}

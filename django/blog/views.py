@@ -62,7 +62,7 @@ def post_edit(request, pk):
     1.  pk에 해당하는 Post인스턴스를
         context라는 dict에 'post'키에 할당
         생성한 dict는 render의 context에 전달
-        사용하는 템플릿은 'blog/post_add.html'을 재사용
+        사용하는 템플릿은 'blog/post_add_edit.html'을 재사용
             HTML새로 만들지 말고 있던 html을 그냥 할당
 
     2.  url은 /3/edit <- 에 매칭되도록 urls.py작성
@@ -99,7 +99,7 @@ def post_edit(request, pk):
         'post': post
     }
     # 수정 할 수 있는 페이지를 보여줌
-    return render(request, 'blog/post_edit.html', context)
+    return render(request, 'blog/post_add_edit.html', context)
 
 
 def post_add(request):
@@ -127,7 +127,7 @@ def post_add(request):
         # return HttpResponse(f"{post.pk} {post.title} {post.content} ")
     else:
         # 요청의 method가 GET일 때
-        return render(request, 'blog/post_add.html')
+        return render(request, 'blog/post_add_edit.html')
 
 
 def post_delete(request, pk):
